@@ -1,0 +1,11 @@
+version: '2'
+services:
+    update_notifier:
+        container_name: update_notifier
+        image: eikendev/update_notifier:latest
+        restart: unless-stopped
+        network_mode: bridge
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
+            - ./mount/data:/home/app/data
