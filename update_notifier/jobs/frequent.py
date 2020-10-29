@@ -9,13 +9,16 @@ from telegram.ext import CallbackContext
 from ..checker import get_updates
 from ..config import config
 from ..database.models import Receiver
-from ..decorators import session_request
+from ..decorators import session_function
 
 notification_text = config['GENERAL']['NotificationText']
 
 
-@session_request
-def job_check_updates(context: CallbackContext, session):
+def job_check_updates(*args, **kwargs):
+    session_function(job_check_updates_inner, *args, **kwargs)
+
+
+def job_check_updates_inner(context: CallbackContext, session):
     now = datetime.now()
 
     receivers = Receiver.query.filter_by(is_subscribed=True).all()
